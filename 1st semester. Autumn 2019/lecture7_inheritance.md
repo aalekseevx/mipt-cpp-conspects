@@ -1,6 +1,6 @@
 # Lecture 7. Inheritance
 
-## 3.10. Static functions and vars are not associated with object, but with the whole class.
+## 3.10. Static functions and variables are not associated with an object, but with the whole class.
 
 ```cpp
 
@@ -8,15 +8,17 @@ class C {
 	static void f();
 }
 
+// call
 C::f();
 ```
 
 ## 3.11. Bit fields
 
+Better use signed/unsigned expicitly. Vars like this can't be used in complicated structers as `std::vector`. 
 ```cpp
 struct S {
-	int a:2; // a is 2 bits
-	int b:3; // b is 3 bits
+	unsigned int a:2; // a is 2 bits. // Range 0..3
+	int b:3; // b is 3 bits. Range is 0..7 or -4..3. (UB)
 }
 ```
 
@@ -27,19 +29,21 @@ Size of the object - 1 byte.
 ```cpp
 class C {
 	struct Nested {
-		int g();
+		int g() {
+
+		}
 	}
 public:
 	Nested f() {}
 }
 
 int main() {
-	Nested x = C().f(); // CE, because Nested is not visible 
-	int x = C().f().g(); // OK
+	C::Nested x = C().f(); // CE, because Nested is private
+	int x = C().f().g(); // strange, but OK
 }
 ```
 
-if Nested is public, use:
+if `Nested` is public, use:
 
 ```cpp
 C::Nested x = c().f()
@@ -49,26 +53,27 @@ C::Nested x = c().f()
 
 # Unit 5. Inheritance.
 
-## 1. Idea.
+## 5.1. Idea.
 ```cpp
-	class Base {};
-	class Derived : public Base {}; // all Base features are accesible 
-	class Derived : private Base {}; // public, protected -> private
-	class Derived : protected Base {}; // public -> protected
+class Base {};
+class Derived : public Base {}; // all Base features are accesible 
+class Derived : protected Base {}; // public -> protected
+class Derived : private Base {}; // public, protected -> private
 ```
-Structs are derived public by defaul.
+Structs are derived public by default.
 
 For outer functions Base fields are visible only if they are public and inherited public.
 
 Protected fields are visible only for derived classes, but not for outer functions.
+
 For all fields strictest of their type and inheritance type is chosen (public, private, protected)
 
 Idea:
-- Public - class is a special case of another clalss.
-- Private - class is implemented using base class.
-- Protected - providing functions for derived classes.
+- `public` - class is a special case of another clalss.
+- `private` - class is implemented using base class.
+- `protected` - providing functions for derived classes.
 
-## 2 Search for names.
+## 5.2 Search for names.
 
 Visible means __in scope__
 
@@ -99,33 +104,32 @@ struct A {
 struct B: A {
 	int a;
 private:
+	// shadows A::f()
 	void f();
 }
 
 int main() {
-	B().f() //CE
+	B().f() //CE. Visible, but private
 }
 ```
 
-f is visible, but not accesible
-
-**Public/private Modifiers doesn't change the way compiler is looking for definitions**
+**Public/private modifiers doesn't change the way compiler is looking for definitions**
 
 Order of operations
-1) Search for functions
+1) Name lookup
 2) Accesibility check
 
 ```cpp
 struct B: A {
 	int a;
 private:
-	using A::f; // add A::f to overloads
+	using A::f; // add A::f to overloads, then lookup is happening by overloading rules
 	void f(double);
 }
 ```
 
 ### Friends.
-Friends are not bidirected. Friends are not derived.
+Friends are not bidirected. Friends are not derived (at all!).
 
 ### Example of strange behaviour
 
@@ -149,7 +153,7 @@ struct Son: public Mom {
 }
 ```
 
-## 3. Constructors & Destructors
+## 5.3. Constructors & Destructors
 
 ```cpp
 class A {
@@ -173,8 +177,8 @@ class B {
 }
 ```
 
-Constructors called A -> B
-Destructors called B -> A
+Constructors called "Base, then Derived". 
+Destructors called "Derived, then Base".
 
 ```cpp
 // import base constructors ignoring copy constructor (since cpp11)
@@ -182,41 +186,55 @@ using A::A;
 ```
 
 
-## 4. Multiple inheritance (just some problems)
+## 5.4. Multiple inheritance (just some problems)
 
 ### Diamond problem
-Granny <- Mother
-Granny <- Father
-Mother <- Son 
-Father <- Son 
+- `Granny` <- `Mother`
+- `Granny` <- `Father`
+- `Mother` <- `Son`
+- `Father` <- `Son` 
 
 ```cpp
 Son s; // 2 grannies inside
-s.x s.f() is ambigious // if s, f is is from Granny
+s.x s.f() is ambigious // if x, f is is from Granny
 ```
 
 # Inaccessible base class problem
-- Mom <- Granny 
-- Mom <- Son 
-- Granny <- Son (inaccesible Granny) 
+- `Mom` <- `Granny` 
+- `Mom` <- `Son` 
+- `Granny` <- `Son`
 
+`Granny` is inaccessible.
 
-## 5. Casts
+## 5.5. Casts
 
-A <- B
+`A` <- `B`
 
 ```cpp
-A& a = b; (a links to part of b) // static_cast<A&>(b)
-A a = b (b is sliced to A)
+A& a = b; (a links to part of b) // static_cast<A&>(b) performs static checks (compilation stage)
+// reinterpret_cast doesn't perform any checks (just reinterpret pointer)
+A a = b // (b is sliced and copied)
 ```
 
-Allowed only when we are allowed to use the fact that B is derived.
+`static_cast` allowed only when we are allowed to use the fact that B is derived.
 
-## 6. Virtal functions.
+## 5.6. Virtual functions.
 ```cpp
 B b;
 A& a = b;
 a.f();
 ```
 
-if f is virtual, then search of function def. is smart (chooses B::f), else it chooses (A::f).
+if `f` is virtual, then search of function definition is smart. (It takes into accoount the fact that it's really a `B` class object and chooses `B::f`), else it chooses (`A::f`).
+
+Class is called polymorphic when it contains virtual functions.
+
+Virtual functions ensure that the correct function is called for an object, regardless of the expression used to make the function call.
+
+Virtual functions are expected to be redefined in derived classes. **Signature must be exactly the same!**
+
+Keyword `override` checks that function overrides something (protects from wrong signature). 
+
+Keyword `final` checks that it can't be overriden in derived classes.
+
+`final` classes can't be derived from.
