@@ -109,8 +109,21 @@ Static polymorphism - compile time using templates
 
 Dynamic polymorphism - runtime using vtable
 
-TODO: where is that: " Пример определения шаблонной функции-члена шаблонного класса вне тела класса (двойной шаблонный префикс).
-"?
+Note: Splitting definition and declaration with templates:
+
+```cpp
+template<typename T>
+class C {
+	template<typename U>
+	void f(U x);
+}
+
+template<typename T>
+template<typename U>
+void C<T>::f(U x) {
+
+}
+```
 
 ## 6.2 Template functions overloading
 
@@ -153,7 +166,18 @@ Note: default template arguments.
 ```cpp
 template<typename T=int>
 ```
-Smart typename guess (since cpp17)
+Note: Smart typename guess (since cpp17)
 ```cpp
 vector v = {1, 2, 3}
+```
+
+Note: absorption of copy constructor by universal constructor.
+```cpp
+template<typename T>
+class C {
+	template<typename U>
+	C(U& x) { }
+	// this can be used only with a special cast (for perfect fit)
+	C(const C& x) {}
+}
 ```
