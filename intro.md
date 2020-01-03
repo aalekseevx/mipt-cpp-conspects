@@ -2,7 +2,9 @@
 
 This is a brief conspect to the course.
 
-Lector: @mesyarik
-Conspect by: @aalekseevx
+Lector: [@mesyarik](https://github.com/mesyarik/)
 
-MIPT, 1st course. 
+Conspect by: [aalekseevx](https://github.com/aalekseevx/)
+
+
+2019. MIPT, 1st course. 
