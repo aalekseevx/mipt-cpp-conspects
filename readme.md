@@ -1,3 +1,11 @@
+# Introduction to C++ programming
+
+This is a brief conspect to the course.
+
+Lector: @mesyarik
+Conspect by: @aalekseevx
+
+MIPT, 1st course. 
 # Lecture 7. Inheritance
 
 ## 3.10. Static functions and variables are not associated with an object, but with the whole class.
@@ -238,6 +246,7 @@ Keyword `override` checks that function overrides something (protects from wrong
 Keyword `final` checks that it can't be overriden in derived classes.
 
 `final` classes can't be derived from.
+
 # Lecture 8. Virtual functions.
 
 ## 5.7 Virtual destructors
@@ -364,7 +373,8 @@ int main() {
 }
 ```
 
-Note: `static_cast` anyway is able to cast up the inheritance hierarchy.# Lecture 9. Templates.
+Note: `static_cast` anyway is able to cast up the inheritance hierarchy.
+# Lecture 9. Templates.
 
 ## 5.11 Abstact classes. Pure virtual functions.
 
@@ -546,7 +556,8 @@ class C {
 	// this can be used only with a special cast (for perfect fit)
 	C(const C& x) {}
 }
-```# Lecture 10. Templates specializations
+```
+# Lecture 10. Templates specializations
 
 ## 6.3 Explicit template specialization
 
@@ -705,7 +716,8 @@ struct remove_ref<T&> {
 Usage
 ```cpp
 remove_ref<int&>::t a = 5;
-```# Lecture 11. Templates
+```
+# Lecture 11. Templates
 
 ## 6.6 Two-phase translation
 
@@ -849,9 +861,6 @@ Node* traverse(Head head, Tail... path) {
 	return (head->*...->*path);
 }
 ```
-
-
-
 # Lecture 12-13. Exceptions.
 
 ## Basic type deduction rules

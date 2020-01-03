@@ -142,6 +142,3 @@ Node* traverse(Head head, Tail... path) {
 	return (head->*...->*path);
 }
 ```
-
-
-
