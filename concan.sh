@@ -1,0 +1,1 @@
+cat "1st semester. Autumn 2019"/* > "lectures.md"
