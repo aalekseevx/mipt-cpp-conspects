@@ -2,12 +2,11 @@
 
 This is a brief conspect to the course.
 
-Lector: [@mesyarik](https://github.com/mesyarik/)
+Lecturer: [@mesyarik](https://github.com/mesyarik/)
 
-Conspect by: [aalekseevx](https://github.com/aalekseevx/)
+Conspect by: [@aalekseevx](https://github.com/aalekseevx/)
 
-
-2019. MIPT, 1st course. 
+MIPT, 1st course. 2019.
 # Lecture 7. Inheritance
 
 ## 3.10. Static functions and variables are not associated with an object, but with the whole class.
