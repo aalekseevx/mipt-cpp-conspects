@@ -18,4 +18,4 @@ MIPT
 
 2019-2020
 
-![meme](img/meme.jpg)
+![meme](main_img/meme.jpg)
