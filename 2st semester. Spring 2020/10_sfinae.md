@@ -8,7 +8,7 @@
 - Check method presence in class
 - move_if_noexcept
 
-## 14.1 `std::conditional`
+## 14.0* `std::conditional`
 
 ``conditional`` works like compile-time if for meta-programming
 ``condtional_t`` is a typedef shorcut
@@ -19,7 +19,7 @@ std::conditional_t<std::is_same<T, U>>::value, int, char> f(T x, U v) {
 }
 ```
 
-## 14.2 Basic idea of SFINAE
+## 14.1 Basic idea of SFINAE
 
 ```cpp
 template<typename T>
@@ -41,7 +41,7 @@ int main() {
 The first version is more spocialized, but it's declaration contains code, that can't be compiled with `T=int`, so compiler
 chooses more general version without CE. It doesn't work the same talking about body of the function.
 
-## 14.3 `std::enable_if`
+## 14.2 `std::enable_if`
 
 ```cpp
 template<bool B, typename T>
@@ -67,7 +67,7 @@ enable_if<is_lvalue_reference<T>::value, int> g(T x) {
 }
 ```
 
-## 14.4 Checking presencse of method with given args
+## 14.3 Checking presencse of method with given args
 
 ```cpp
 // This implementation contains terrible bugs!
@@ -133,7 +133,7 @@ public:
 }
 ```
 
-## 14.5 Declval
+## 14.4 Declval
 
 Problem: Args may be NotDefaultConstructible -> SFINAE fails
 

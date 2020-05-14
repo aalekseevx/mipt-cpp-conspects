@@ -1,6 +1,6 @@
 # Lecture 11. SFINAE 2
 
-## 14.6 `is_constructible` and similar
+## 14.5 - 14.6 `is_constructible` and similar
 
 is constructible from this args?
 
@@ -59,7 +59,7 @@ int main() {
 }
 ```
 
-## Integral constant
+## 14.6* Integral constant
 
 Struct with compile-time constant.
 
@@ -73,7 +73,7 @@ struct true_type : public integral_constant<bool, true> {}
 struct false_type : public integral_constant<bool, false> {}
 ```
 
-## is_class
+## 14.7 `is_class`
 
 is type non-primitive?
 
@@ -105,7 +105,7 @@ public:
 };
 ```
 
-## is_base_of
+## 14.8 `is_base_of`
 
 Implementation from cpp-reference, used in `enable_shared_from_this`.
 
@@ -136,6 +136,4 @@ struct is_base_of :
         > {};
 
 ```
-
-## Number of fields detection
 
