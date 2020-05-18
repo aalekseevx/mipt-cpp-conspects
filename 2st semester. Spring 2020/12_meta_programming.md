@@ -114,7 +114,12 @@ int main() {
 
 # Unit 15. Lambda functions and elements of functional programming
 
+## 15.1 Basic idea.
+
 Interpreting function as an object
+
+Note: function can be called immediatly after it's created.
+
 
 ```cpp
 int main() {
@@ -124,6 +129,23 @@ int main() {
 		return x > y;
 	}
 	std::sort(v.begin(), v.end(), f);
+
 }
 ```
 
+Explicit type specification
+
+```cpp
+int main() {
+	// type will be specially created for the function
+	// so we use auto
+	auto f = [](int x, int y) -> bool {
+		if (x < y) {
+			return true;
+		}
+		return 0;
+	}
+	std::sort(v.begin(), v.end(), f);
+
+}
+```
